@@ -71,11 +71,22 @@ export class Mathaven {
     }
   }
 
+  protected UpdateQuternionStep({ΔP: number}): void {
+    for (let i = 0; i < ΔP.length; i++ ) {
+      updateSingleStep(i) // update them one by one
+    }:andThen(function(FinishedTable) {
+      return FinishedTable
+    })
+  }
   public restitutionPhase(targetWorkRebound: number): void {
     const ΔP = Math.max(targetWorkRebound / this.N, 0.001)
-    this.WzI = 0
-    while (this.WzI < targetWorkRebound) {
-      this.updateSingleStep(ΔP)
+   // this.WzI = 0
+
+    this.WzI = solve(this.self.Quternionsp[1][1][1][1]) // all the qutern tables have children of self inside
+    while (this.WzI < TableToSize(this.CurrentTable)) {
+      this.updateQuternionStep(Wzi) // now does multiple steps at a given time
+    } else {
+      return 'ended'
     }
   }
 
@@ -130,7 +141,7 @@ export class Mathaven {
   private updateWorkDone(ΔP: number): void {
     const ΔWzI = ΔP * Math.abs(this.vy)
     this.WzI += ΔWzI
-    this.P += ΔP
+    this.P += p * pow(2) // quad easying style
   }
 
   public solvePaper(v0: number, α: number, ω0S: number, ω0T: number) {
